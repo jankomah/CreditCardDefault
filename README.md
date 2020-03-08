@@ -1,5 +1,9 @@
 # CreditCardDefault
 
+<p align="center">
+  <img width="700" height="600" src="https://github.com/jankomah/CreditCardDefault/blob/master/images/Screenshot%202020-03-08%20at%2009.28.29.png">
+</p>
+
 ### Dataset Information
 This dataset contains information on default payments, demographic factors, credit data, history of payment, and bill statements of credit card clients in Taiwan from April 2005 to September 2005.
 
@@ -49,6 +53,10 @@ There are 25 variables:
 - PAY_AMT6: Amount of previous payment in April, 2005 (NT dollar)
 
 - default.payment.next.month: Default payment (1=yes, 0=no)
+
+
+- Line of Action :
+
 
 
 
