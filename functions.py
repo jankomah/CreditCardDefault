@@ -46,36 +46,62 @@ cnf_matrix = confusion_matrix(y_test3, predictions)
 print('Confusion Matrix:\n', cnf_matrix)
 
 
-import numpy as np
-import itertools
-import matplotlib.pyplot as plt
-%matplotlib inline
+# diving deeper into confusion matrix
+def conf_mat(actual, predicted):
+    cm = {'TP': 0, 'TN': 0, 'FP': 0, 'FN': 0}
+    
+    for ind, label in enumerate(actual):
+        pred = predicted[ind]
+        if label == 1:
+            # CASE: TP 
+            if label == pred:
+                cm['TP'] += 1
+            # CASE: FN
+            else:
+                cm['FN'] += 1
+        else:
+            # CASE: TN
+            if label == pred:
+                cm['TN'] += 1
+            # CASE: FP
+            else:
+                cm['FP'] += 1
+    return cm
+
+conf_mat(actual, predicted)
+
 
 # Create the basic matrix
-plt.imshow(cnf_matrix,  cmap=plt.cm.Blues) 
+def plot_confusion_matrix(cnf_matrix,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+    
 
-# Add title and axis labels
-plt.title('Confusion Matrix')
-plt.ylabel('True label')
-plt.xlabel('Predicted label')
+    plt.imshow(cnf_matrix,  cmap=plt.cm.Blues) 
 
-# Add appropriate axis scales
-class_names = set(target) # Get class labels to add to matrix
-tick_marks = np.arange(len(class_names))
-plt.xticks(tick_marks, class_names, rotation=45)
-plt.yticks(tick_marks, class_names)
+"""Add title and axis labels"""    
+    plt.title('Confusion Matrix')
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
 
-# Add labels to each cell
-thresh = cnf_matrix.max() / 2. # Used for text coloring below
-# Here we iterate through the confusion matrix and append labels to our visualization 
-for i, j in itertools.product(range(cnf_matrix.shape[0]), range(cnf_matrix.shape[1])):
+"""Add appropriate axis scales"""
+    class_names = set(y) # Get class labels to add to matrix
+    tick_marks = np.arange(len(class_names))
+    plt.xticks(tick_marks, class_names, rotation=45)
+    plt.yticks(tick_marks, class_names)
+
+""" Add labels to each cell"""
+    thresh = cnf_matrix.max() / 2. # Used for text coloring below
+"""Here we iterate through the confusion matrix and append labels to our visualization"""
+    for i, j in itertools.product(range(cnf_matrix.shape[0]), range(cnf_matrix.shape[1])):
         plt.text(j, i, cnf_matrix[i, j],
-                 horizontalalignment='center',
+            horizontalalignment='center',
                  color='white' if cnf_matrix[i, j] > thresh else 'black')
 
-# Add a legend
-plt.colorbar()
-plt.show()
+"""Add a legend"""
+    plt.colorbar()
+    plt.show()
+
 
 
 # Normalized Confusion Matrix
