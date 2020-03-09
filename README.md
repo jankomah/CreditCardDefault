@@ -79,6 +79,47 @@ The F1 score is a weighted harmonic mean of precision and recall such that the b
 Support is the number of actual occurrences of the class in the specified dataset. Imbalanced support in the training data may indicate structural weaknesses in the reported scores of the classifier and could indicate the need for stratified sampling or rebalancing. Support doesn’t change between models but instead diagnoses the evaluation process.
 
 
+# In This Application :
+
+**Accuracy**
+ - Overall , how often the model predicts correctly defaulters or non-defaulters.
+
+**Precision**
+ - How often is the model correct when it predicts default.
+
+**Recall**
+- The proportion of actual defaulters that the model will correctly predict as such
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
