@@ -55,9 +55,28 @@ There are 25 variables:
 - default.payment.next.month: Default payment (1=yes, 0=no)
 
 
-- Line of Action :
 
+## Data
+- The data was downloaded from the UCI Machine Learning Repo
 
+## Concepts
+**Interpretation of classification reports**
+    
+**Precision**
+
+Precision is the ability of a classiifer not to label an instance positive that is actually negative. For each class it is defined as as the ratio of true positives to the sum of true and false positives. Said another way, “for all instances classified positive, what percent was correct?”
+
+**Recall**
+
+Recall is the ability of a classifier to find all positive instances. For each class it is defined as the ratio of true positives to the sum of true positives and false negatives. Said another way, “for all instances that were actually positive, what percent was classified correctly?”
+
+**f1 score**
+
+The F1 score is a weighted harmonic mean of precision and recall such that the best score is 1.0 and the worst is 0.0. Generally speaking, F1 scores are lower than accuracy measures as they embed precision and recall into their computation. As a rule of thumb, the weighted average of F1 should be used to compare classifier models, not global accuracy.
+
+**support**
+
+Support is the number of actual occurrences of the class in the specified dataset. Imbalanced support in the training data may indicate structural weaknesses in the reported scores of the classifier and could indicate the need for stratified sampling or rebalancing. Support doesn’t change between models but instead diagnoses the evaluation process.
 
 
 
