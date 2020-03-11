@@ -102,12 +102,56 @@ def plot_confusion_matrix(cnf_matrix,
     plt.colorbar()
     plt.show()
 
+    
+# Updated Confusion matrix
+def plot_confusion_matrix1(cnf_matrix, classes = class_names ,normalize=False,
+                          title='Confusion matrix',
+                          class_names = ['Non Default' , 'Default'], 
+                          cmap=plt.cm.Blues):
+    # Pseudocode/Outline:
+    # Print the confusion matrix (optional)
+    # Create the basic matrix
+    # Add title and axis labels
+    # Add appropriate axis scales
+    # Add labels to each cell
+    # Add a legend
+    
+#   print(cnf_matrix)
+
+    plt.imshow(cnf_matrix, cmap=cmap)
+    
+    # Add title and axis labels 
+    plt.title('Confusion Matrix') 
+    plt.ylabel('True label') 
+    plt.xlabel('Predicted label')
+    
+    # Add appropriate axis scales
+    tick_marks = np.arange(len(class_names))
+    plt.xticks(tick_marks, class_names, rotation=45)
+    plt.yticks(tick_marks, class_names)
+    
+    
+    # Text formatting
+    fmt = '.2f' if normalize else 'd'
+    # Add labels to each cell
+    thresh = cnf_matrix.max() / 2.
+    # Here we iterate through the confusion matrix and append labels to our visualization 
+    for i, j in itertools.product(range(cnf_matrix.shape[0]), range(cnf_matrix.shape[1])):
+        plt.text(j, i, format(cnf_matrix[i, j], fmt),
+                 horizontalalignment='center',
+                 color='white' if cnf_matrix[i, j] > thresh else 'black')
+    
+    # Add a legend
+    plt.colorbar()
+    plt.show() 
+
+    
 
 
 # Normalized Confusion Matrix
 def plot_confusion_matrix(cm, classes,
                           normalize=False,
-                          title='Confusion matrix',
+                          title='Normalized Confusion matrix',
                           cmap=plt.cm.Blues):
     
     # Check if normalize is set to True
@@ -149,6 +193,84 @@ def plot_confusion_matrix(cm, classes,
 plot_confusion_matrix(cnf_matrix, classes=class_names, normalize=True,
                       title='Normalized confusion matrix')
      
+
+    
+    
+ # ROC CURVE
+def scores(model,X_train,X_val,y_train3,y_val):
+    train_prob = model.predict_proba(X_train)[:,1]
+    val_prob = model.predict_proba(X_val)[:,1]
+    train = roc_auc_score(y_train,train_prob)
+    val = roc_auc_score(y_val,val_prob)
+    print('train:',round(train,2),'test:',round(val,2))
+    
+# annotation 
+def annot(fpr,tpr,thr):
+    k=0
+    for i,j in zip(fpr,tpr):
+        if k %50 == 0:
+            plt.annotate(round(thr[k],2),xy=(i,j), textcoords='data')
+        k+=1
+    
+# Plot ROC curve
+def roc_plot(model,X_train,y_train,X_val,y_val):
+    train_prob = model.predict_proba(X_train)[:,1]
+    val_prob = model.predict_proba(X_val)[:,1]
+    plt.figure(figsize=(7,7))
+    for data in [[y_train, train_prob],[y_val, val_prob]]: # ,[y_test, test_prob]
+        fpr, tpr, threshold = roc_curve(data[0], data[1])
+        plt.plot(fpr, tpr)
+    annot(fpr, tpr, threshold)
+    plt.plot([0, 1], [0, 1], color='navy', linestyle='--')
+    plt.ylabel('TPR (power)')
+    plt.xlabel('FPR (alpha)')
+    plt.legend(['train','val'])
+    plt.show()
+    
+# Optimized Model
+def opt_plots(opt_model):
+    opt = pd.DataFrame(opt_model.cv_results_)
+    cols = [col for col in opt.columns if ('mean' in col or 'std' in col) and 'time' not in col]
+    params = pd.DataFrame(list(opt.params))
+    opt = pd.concat([params,opt[cols]],axis=1,sort=False)
+    
+    plt.figure(figsize=[15,4])
+    plt.subplot(121)
+    sns.heatmap(pd.pivot_table(opt,index='max_depth',columns='min_samples_leaf',values='mean_train_score')*100)
+    plt.title('ROC_AUC - Training')
+    plt.subplot(122)
+    sns.heatmap(pd.pivot_table(opt,index='max_depth',columns='min_samples_leaf',values='mean_test_score')*100)
+    plt.title('ROC_AUC - Validation')
+#     return opt
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
