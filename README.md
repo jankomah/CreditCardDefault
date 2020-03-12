@@ -116,11 +116,6 @@ And this alternative image explains even better:
 
 
 
-Let's calculate the ROC-AUC score <a href='#8'>[4]</a>.
-
-### Area under curve
-
-
 
 
 
