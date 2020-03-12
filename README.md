@@ -91,7 +91,34 @@ Support is the number of actual occurrences of the class in the specified datase
 - The proportion of actual defaulters that the model will correctly predict as such
 
 
+### Type I error and Type II error
 
+We need to clarify that confussion matrix are not a very good tool to represent the results in the case of largely unbalanced data, because we will actually need a different metrics that accounts in the same time for the **selectivity** and **specificity** of the method we are using, so that we minimize in the same time both **Type I errors** and **Type II errors**.
+
+
+**Null Hypothesis** (**H0**) - The transaction is not a fraud.  
+**Alternative Hypothesis** (**H1**) - The transaction is a fraud.  
+
+**Type I error** - You reject the null hypothesis when the null hypothesis is actually true.  
+**Type II error** - You fail to reject the null hypothesis when the the alternative hypothesis is true.  
+
+**Cost of Type I error** - You erroneously presume that the the transaction is a fraud, and a true transaction is rejected.  
+**Cost of Type II error** - You erroneously presume that the transaction is not a fraud and a ffraudulent transaction is accepted.  
+
+The following image explains what **Type I error** and **Type II error** are:    
+
+
+<img src="https://i.stack.imgur.com/x1GQ1.png" width="600"/>
+
+And this alternative image explains even better:  
+
+<img src="https://i2.wp.com/flowingdata.com/wp-content/uploads/2014/05/Type-I-and-II-errors1.jpg" width="600"/>
+
+
+
+Let's calculate the ROC-AUC score <a href='#8'>[4]</a>.
+
+### Area under curve
 
 
 
