@@ -5,15 +5,15 @@ df0.columns = new_cols
 
 
 def base_func(element):
-    #train and fit the model
+    """train and fit the model"""
     model = element()
     model.fit(X_train , y_train)
     
-    #predict
+    """predict"""
     train_preds = model.predict(X_train)
     test_preds = model.predict(X_test)
     
-    #evaluation
+    """evaluation"""
     train_accuracy = roc_auc_score(y_train , train_preds)
     test_accuracy = roc_auc_score(y_test , test_preds)
     
@@ -22,11 +22,40 @@ def base_func(element):
     print(f"Training Accuracy: {(train_accuracy * 100) :.4}%")
     print(f"Test Accuracy : {(test_accuracy * 100) :.4}%")
     
-    #Store accuracy in a new DataFrame
+    """Store accuracy in a new DataFrame"""
     score_logreg = [element , train_accuracy , test_accuracy]
     print("------------------------------------------------")
     models = pd.DataFrame([score_logreg])    
+
     
+# RUn Model Is My Main Function where I have dumped everything    
+def run_model2(model, X_train, y_train,X_test, y_test ):
+    model.fit(X_train, y_train)
+
+    """predict"""
+    train_preds = model.predict(X_train)
+    test_preds = model.predict(X_test)
+
+    """evaluation"""
+    train_accuracy = roc_auc_score(y_train, train_preds)
+    test_accuracy = roc_auc_score(y_test, test_preds)
+    report = classification_report(y_test, test_preds)
+
+    """print confusion matrix"""
+    cnf_matrix = confusion_matrix(y_test , test_preds)
+    print("Confusion Matrix:\n" , cnf_matrix)
+
+    """print reports of the model accuracy"""
+    print('Model Scores')
+    print("------------------------")
+    print(f"Training Accuracy: {(train_accuracy * 100):.4}%")
+    print(f"Test Accuracy:     {(test_accuracy * 100):.4}%")
+    print("------------------------------------------------------")
+    print('Classification Report : \n', report)
+    print("-----------------------------------------------------")
+    print("Confusion Matrix:\n" , cnf_matrix)
+    
+
     
 # Confusion Matrix
 def Conf_Matrix(CM , labels = ['pay','default']):
