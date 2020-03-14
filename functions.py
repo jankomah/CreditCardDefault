@@ -1,9 +1,65 @@
+#Fillna Function:
+def fill_na(df_new):
+    """Iterate through columns , if any nulls replace with 0"""
+    for col in df_new.columns:
+        if (df_new[col].isnull().any()):
+            if (col):
+                df_new[col].fillna(0, inplace=True)         
+    return df_new
+# df_new = fill_na(df_new)
 
+#simply making columnns lowercase
 new_cols = [col.lower() for col in df0.columns]
 df0.columns = new_cols
 
+#Missing Data Function
+def missing_data(df):
+    total = df.isnull().sum()
+    percent = (df.isnull().sum()/df.isnull().count()*100)
+    tt = pd.concat([total, percent], axis=1, keys=['Total', 'Percent'])
+    types = []
+    for col in df.columns:
+        dtype = str(df[col].dtype)
+        types.append(dtype)
+    tt['Types'] = types
+    return(np.transpose(tt))
 
 
+#wordcloud function
+stopwords = set(STOPWORDS)
+def show_wordcloud(feature,df1,title="",size=2):
+    data = df1.loc[~df1[feature].isnull(), feature].values
+    count = (~df1[feature].isnull()).sum()
+    wordcloud = WordCloud(
+        background_color='white',
+        stopwords=stopwords,
+        max_words=200,
+        max_font_size=40, 
+        scale=5,
+        random_state=1
+    ).generate(str(df))
+
+    fig = plt.figure(1, figsize=(size*4, size*4))
+    plt.axis('off')
+    fig.suptitle("Prevalent words in {} {} ({} rows)".format(title,feature,count), fontsize=np.sqrt(size)*15)
+    fig.subplots_adjust(top=2.3)
+
+    plt.imshow(wordcloud)
+    plt.show()
+
+    
+# Plot Model Visualisation Fnction
+def plot_features(model , figsize):
+    """plot feature importances of models"""
+    feat_importance = pd.Series(model.feature_importances_ , index = features.columns)
+    ax.set_ylabel("features" , size = 16);
+    feat_importance.nlargest(10).sort_values().plot(kind = "barh" , figsize = (10 , 5))
+    plt.xlabel("Relative Feature Importance For Random Forest");
+    plt.title("Feature Importance In Order" , size = 16);
+    
+    
+
+#Base Fucntion
 def base_func(element):
     """train and fit the model"""
     model = element()
@@ -178,7 +234,7 @@ def plot_confusion_matrix1(cnf_matrix, classes = class_names ,normalize=False,
 
 
 # Normalized Confusion Matrix
-def plot_confusion_matrix(cm, classes,
+def plot_Norm_Cnf_matrix(cm, classes,
                           normalize=False,
                           title='Normalized Confusion matrix',
                           cmap=plt.cm.Blues):
